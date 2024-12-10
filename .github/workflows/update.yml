@@ -1,0 +1,20 @@
+name: Actualizar Backend con Build del Frontend
+
+on:
+  repository_dispatch:
+    types: [frontend_build_deploy]
+
+jobs:
+  update_backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio backend
+        uses: actions/checkout@v3
+
+      - name: Copiar archivos desde frontend
+        run: |
+          cp -r ../frontend/build/* ./views/
+          git add ./views/
+          git commit -m "Actualización de vistas desde frontend"
+          git push origin main  # O la rama que estés usando en backend
